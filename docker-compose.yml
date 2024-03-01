@@ -1,0 +1,116 @@
+version: '3.9'
+
+services:
+  novnc-gate:
+    image: ubuntu:22.04
+    container_name: novnc-gate
+    restart: unless-stopped
+    expose:
+      - "65080-65400"
+    volumes:
+      - ./novnc-gate/conf.d:/etc/supervisor/conf.d
+    networks:
+      internal-network:
+        ipv4_address: 172.18.0.2
+      external-network:
+    environment:
+      - DEBIAN_FRONTEND=noninteractive
+    command: bash -c "apt-get update && apt install -y supervisor iproute2 novnc && /usr/bin/supervisord -c /etc/supervisor/supervisord.conf"
+
+  nginx-novnc:
+    image: nginx
+    container_name: nginx-novnc
+    restart: unless-stopped
+    expose:
+      - "80"
+    networks:
+      internal-network:
+        ipv4_address: 172.18.0.3
+      external-network:
+    volumes:
+      - ./nginx-novnc/html:/var/www/html
+      - ./nginx-novnc/nginx.conf:/etc/nginx/nginx.conf
+
+  app:
+    image: python:3
+    container_name: app
+    restart: unless-stopped
+    expose:
+      - "5000"
+    networks:
+      internal-network:
+        ipv4_address: 172.18.0.4
+      external-network:
+    volumes:
+      - ./app:/app
+    command: bash -c "pip install --no-cache-dir -r app/requirements.txt && cd app/ && python ./app.py"
+
+  add-host-app:
+    image: python:3
+    container_name: add-host-app
+    restart: unless-stopped
+    expose:
+      - "6000"
+    networks:
+      internal-network:
+        ipv4_address: 172.18.0.6
+      external-network:
+    volumes:
+      - ./add-host-app:/add-host-app
+      - ./nginx-novnc:/nginx-novnc
+      - ./nginx-tools:/nginx-tools
+      - ./novnc-gate:/novnc-gate
+    command: bash -c "pip install --no-cache-dir -r add-host-app/requirements.txt && cd add-host-app/ && python ./add_host.py"
+
+  nginx-tools:
+    image: nginx
+    container_name: nginx-tools
+    restart: unless-stopped
+    expose:
+      - "80"
+    networks:
+      internal-network:
+        ipv4_address: 172.18.0.5
+      external-network:
+    volumes:
+      - ./nginx-tools/html:/var/www/html
+      - ./nginx-tools/nginx.conf:/etc/nginx/nginx.conf
+
+  nginx-proxy:
+    image: nginx
+    container_name: nginx-proxy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    networks:
+      internal-network:
+        ipv4_address: 172.18.0.10
+      external-network:
+    volumes:
+      - ./nginx-proxy/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx-proxy/.htpasswd:/etc/nginx/.htpasswd
+      - ./nginx-proxy/html:/var/www/html
+      - ./certs:/etc/nginx/certs
+
+  nginx-ldap-auth-daemon:
+    container_name: nginx-ldap-auth
+    restart: unless-stopped
+    build:
+      context: ./nginx-ldap-auth
+      dockerfile: Dockerfile
+    networks:
+      internal-network:
+        ipv4_address: 172.18.0.12
+      external-network:
+
+networks:
+  internal-network:
+    name: internal-network
+    driver: bridge
+    internal: true
+    ipam:
+      config:
+        - subnet: 172.18.0.0/24
+  external-network:
+    name: external-network
+    driver: bridge
