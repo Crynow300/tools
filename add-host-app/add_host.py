@@ -15,7 +15,7 @@ def update_files(host, address, port):
     with open('/nginx-novnc/html/index.html', 'w') as file:
         for line in content:
             if '<span style="display: none;"></span>' in line:
-                file.write(f'    <a href="http://novnc.pivtochka.com/novnc/novnc-{port}/vnc.html?path=novnc/novnc-{port}/websockify&autoconnect=true&password=7953518&quality=2&compression=7&resize=scale" target="_blank"><button class="button">{address}</button></a>\n')
+                file.write(f'    <a href="http://novnc.domain.com/novnc/novnc-{port}/vnc.html?path=novnc/novnc-{port}/websockify&autoconnect=true&password=7953518&quality=2&compression=7&resize=scale" target="_blank"><button class="button">{address}</button></a>\n')
             file.write(line)
 
     with open(f'/nginx-tools/html/{host}.html', 'w') as file:
@@ -37,10 +37,14 @@ def update_files(host, address, port):
         file.write(f'    <button class="button" id="btn3">Переподключение сканера</button>\n')
         file.write(f'    <button class="button" id="btn4">Удаление кеша 1С</button>\n')
         file.write(f'    <button class="button" id="btn6">Перезапуск InterCust</button>\n')
+        file.write(f'    <button class="button" id="btn7">Заблокировать экран</button>\n')
+        file.write(f'    <button class="button" id="btn8">Разблокировать экран</button>\n')
+        file.write(f'    <button class="button" id="btn9">Подать сигнал</button>\n')
+        file.write(f'    <button class="button" id="btn10">Перезапуск СБИС-УТМ</button>\n')
         file.write(f'    <button class="button" id="btn5">Отправить сообщение</button>\n')
         file.write(f'    <textarea id="message-input" rows="4" placeholder="Текст сообщения..."></textarea>\n')
         file.write(f'   </div>\n')
-        file.write(f'   <iframe src="http://novnc.pivtochka.com/novnc/novnc-{port}/vnc.html?path=novnc/novnc-{port}/websockify&autoconnect=true&quality=2&compression=7&resize=scale&password=7953518" width="1024" height="576"></iframe>\n')
+        file.write(f'   <iframe src="http://novnc.domain.com/novnc/novnc-{port}/vnc.html?path=novnc/novnc-{port}/websockify&autoconnect=true&quality=2&compression=7&resize=scale&password=7953518" width="1024" height="576"></iframe>\n')
         file.write(f'   <h2>Отладка</h2>\n')
         file.write(f'   <div id="result"></div>\n')
         file.write(f'  </body>\n')
@@ -54,7 +58,7 @@ def update_mainpage(address, host):
     with open('/nginx-tools/html/index.html', 'w') as file:
         for line in content:
             if '<span style="display: none;"></span>' in line:
-                file.write(f'         <a href="http://tools.pivtochka.com/{host}.html" target="_blank"><button class="button">{address}</button></a>\n')
+                file.write(f'         <a href="http://tools.domain.com/{host}.html" target="_blank"><button class="button">{address}</button></a>\n')
             file.write(line)
 
 def restart_container():
