@@ -22,8 +22,8 @@ def execute_command():
     p = Protocol(
         endpoint=f'https://{host}:5986/wsman',
         transport='ntlm',
-        username='pivtochka\webtools',
-        password='g5utubbW12',
+        username='domain\admin',
+        password='password',
         server_cert_validation='ignore'
     )
     shell_id = p.open_shell()
