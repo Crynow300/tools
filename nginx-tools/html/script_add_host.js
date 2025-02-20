@@ -4,7 +4,7 @@ document.getElementById("updateForm").addEventListener("submit", function(event)
   var form = event.target;
   var formData = new FormData(form);
 
-  fetch("http://tools.pivtochka.com/add_host", {
+  fetch("http://tools.domain.com/add_host", {
     method: "POST",
     body: formData
   })
