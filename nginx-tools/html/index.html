@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Интерфейс удалённого управления точками обслуживания</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="stylesheet" type="text/css" href="style-main.css">
+    <script src="script-main.js"></script>
+</head>
+<header>
+    <img src="logo.png">
+    <form class="search-box" onsubmit="searchButtons();return false;">
+    <input type="text" id="search-query" placeholder="Поиск">
+    <button type="button" onclick="document.getElementById('search-query').value = ''; location.reload();">Сброс</button>
+    </form>
+</header>
+<body>
+  <h2>Инструменты</h2>
+  <div class="button-column">
+         <a href="http://tools.domain.com/bulk-actions.html" target="_blank"><button class="button">Массовые действия</button></a>
+         <a href="http://tools.domain.com/add-host.html" target="_blank"><button class="button">Добавление компьютера</button></a>
+         <a href="https://vault.domain.com" target="_blank"><button class="button">Vaultwarden</button></a>
+         <a href="http://mediawiki.domain.com" target="_blank"><button class="button">Mediawiki</button></a>
+         <a href="https://wekan.domain.com/b/gtCjvEpN2vGXHFmLR/sistemnyj-administrator" target="_blank"><button class="button">Wekan</button></a>
+         <a href="https://onlyoffice.domain.com" target="_blank"><button class="button">Onlyoffice</button></a>
+  </div>
+  <h2>Точки обслуживания</h2>
+  <div class="button-column">
+         <a href="http://tools.domain.com/WIN-HOST-1.html" target="_blank"><button class="button">Компьютер-1</button></a>
+         <a href="http://tools.domain.com/WIN-HOST-2.html" target="_blank"><button class="button">Компьютер-2</button></a>
+         <a href="http://tools.domain.com/WIN-HOST-3.html" target="_blank"><button class="button">Компьютер-3</button></a>
+         <span style="display: none;"></span>
+    </div>
+  </body>
+</html>
