@@ -1,0 +1,7 @@
+﻿[System.Console]::Beep(261, 300)
+[System.Console]::Beep(293, 300)
+[System.Console]::Beep(329, 300)
+[System.Console]::Beep(349, 300)
+[System.Console]::Beep(392, 300)
+[System.Console]::Beep(440, 300)
+[System.Console]::Beep(493, 300)
